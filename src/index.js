@@ -1,27 +1,23 @@
 module.exports = function check(str, bracketsConfig) {
-let strToArr = str.split('');
+
+let arr = str.split('');
+let stack = [];
 let brackets = {};
-let i = 0;
-while( i < bracketsConfig.length){
-  brackets[bracketsConfig[i][0]] = bracketsConfig[i][1]
-  i++;
+for (let i = 0; i < bracketsConfig.length; i++){
+  brackets[`${bracketsConfig[i][0]}`] = `${bracketsConfig[i][1]}`
 }
-let index = -1;
-while (strToArr.length > 1){
- index = strToArr.indexOf(`${brackets[`${strToArr[0]}`]}`, 1)
- if (index > 0){
-  strToArr.splice(index, 1);
-  strToArr.shift();
- } 
- else {
-  return false;
- }
-}
-if (strToArr.length === 1){
-  console.log("false2");
-  return false;
-} else if (strToArr.length === 0){
-  console.log("true1");
+
+arr.forEach(e => {
+  if (e != brackets[stack[stack.length - 1]]){
+    stack.push(e)
+  } else {
+    stack.pop()
+  }
+})
+
+if (stack.length === 0){
   return true;
+} else {
+  return false
 }
 }
